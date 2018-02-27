@@ -1,0 +1,9 @@
+{
+  "generator-nodejs-lib": {
+    "projectName": "aws-lambda",
+    "projectDescription": "Utilities for AWS Lambda functions, and a wrapper for lambda functions that injects logger and configuration objects into the lambda handler",
+    "authorName": "Vamshi K Ponnapalli",
+    "authorEmail": "vamshi.ponnapalli@gmail.com",
+    "githubUsername": "vamship"
+  }
+}
