@@ -1,5 +1,5 @@
 {
-    "name": "aws-lambda",
+    "name": "@vamship/aws-lambda",
     "version": "1.0.1",
     "description": "AWS lambda utilities that include a standardized wrapper for handlers that pre configures logger and config objects, and supports promises for async handler execution.",
     "main": "src/index.js",
