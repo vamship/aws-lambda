@@ -32,14 +32,14 @@ AWS Lambdas is the need for a consistent way of developing and testing lambda
 functions. Most lambda functions will benefit from having a standard mechanism
 for initialization of _configuration_ and _logger_ objects.
 
-* Having a consistent structure to the log messages allows logs to be loaded up
-  into log analysis tools, which is especially important when trying to track a
-  complex requests as it passes from one lambda function to another.
+*   Having a consistent structure to the log messages allows logs to be loaded up
+    into log analysis tools, which is especially important when trying to track a
+    complex requests as it passes from one lambda function to another.
 
-* Configuration data becomes especially important when multiple versions of the
-  same lambda function have to be supported concurrently. Each version may have a
-  different configuration, and having a simple mechanism for accessing version
-  specific configuration is important.
+*   Configuration data becomes especially important when multiple versions of the
+    same lambda function have to be supported concurrently. Each version may have a
+    different configuration, and having a simple mechanism for accessing version
+    specific configuration is important.
 
 Finally, lambda functions that are not used for a period of time can
 [experience delayed startup times](https://stackoverflow.com/questions/42877521/is-it-possible-to-keep-an-aws-lambda-function-warm),
@@ -50,24 +50,24 @@ This library attempts to solve these problems by providing a wrapper around
 simple nodejs functions converting them into lambda handlers with the following
 features:
 
-* **Promises**: The nodejs function can choose to return a promise to indicate
-  asynchronous operations. The wrapper deals with the responses, and invokes the
-  lambda callback immediately if no promise is returned (for synchronous
-  operations), or waits for promise fulfillment/rejection if a promise is returned
-  (for asynchronous operations).
+*   **Promises**: The nodejs function can choose to return a promise to indicate
+    asynchronous operations. The wrapper deals with the responses, and invokes the
+    lambda callback immediately if no promise is returned (for synchronous
+    operations), or waits for promise fulfillment/rejection if a promise is returned
+    (for asynchronous operations).
 
-* **Logger and Config**: The wrapper automatically initializes and injects
-  logger and configuration objects for use within the handler. The
-  [logger](https://github.com/vamship/logger) object emits JSON logs that include
-  the handler name and the AWS Request Id. More properties may be injected if
-  necessary. The config object uses the lambda execution version/alias to create a
-  [scoped config object](https://github.com/vamship/config) that contains version
-  specific configuration.
+*   **Logger and Config**: The wrapper automatically initializes and injects
+    logger and configuration objects for use within the handler. The
+    [logger](https://github.com/vamship/logger) object emits JSON logs that include
+    the handler name and the AWS Request Id. More properties may be injected if
+    necessary. The config object uses the lambda execution version/alias to create a
+    [scoped config object](https://github.com/vamship/config) that contains version
+    specific configuration.
 
-* **Lambda Keep Warm**: The wrapper will skip all further processing if the
-  input event contains a `__LAMBDA_KEEP_WARM=true` property. The underlying
-  handler is never invoked, but the invocation results in the lambda remaining in
-  cache, improving start times for infrequently called functions.
+*   **Lambda Keep Warm**: The wrapper will skip all further processing if the
+    input event contains a `__LAMBDA_KEEP_WARM=true` property. The underlying
+    handler is never invoked, but the invocation results in the lambda remaining in
+    cache, improving start times for infrequently called functions.
 
 ## Installation
 
@@ -117,10 +117,10 @@ under test is essentially a simple node.js function, and can be tested using
 standard mocking/testing patterns. However, each test run requires a few common
 operations such as:
 
-* Mocking of logger/config, with the ability to inject custom config values
-* Generation of lambda context parameters (invokedFunctionArn for alias)
-* Setting standard inputs on the handler
-* etc.
+*   Mocking of logger/config, with the ability to inject custom config values
+*   Generation of lambda context parameters (invokedFunctionArn for alias)
+*   Setting standard inputs on the handler
+*   etc.
 
 These common operations have been abstracted into the LambdaTestWrapper class
 that is exported by the
