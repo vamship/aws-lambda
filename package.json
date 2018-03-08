@@ -1,6 +1,6 @@
 {
     "name": "@vamship/aws-lambda",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "AWS lambda utilities that include a standardized wrapper for handlers that pre configures logger and config objects, and supports promises for async handler execution.",
     "main": "src/index.js",
     "scripts": {
