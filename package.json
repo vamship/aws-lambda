@@ -27,16 +27,16 @@
         "grunt-prettier": "^0.4.0",
         "istanbul": "^0.4.5",
         "load-grunt-tasks": "^3.5.2",
-        "mocha": "^5.0.2",
+        "mocha": "^5.0.4",
         "rewire": "^3.0.2",
         "sinon": "^4.4.2",
         "sinon-chai": "^3.0.0",
         "time-grunt": "^1.4.0"
     },
     "dependencies": {
-        "@vamship/arg-utils": "^1.2.3",
-        "@vamship/config": "^1.0.1",
-        "@vamship/logger": "^1.2.3",
+        "@vamship/arg-utils": "^2.0.0",
+        "@vamship/config": "^1.0.2",
+        "@vamship/logger": "^1.2.4",
         "bluebird": "^3.5.1"
     },
     "repository": {

@@ -75,7 +75,7 @@ class HandlerWrapper {
      *        injected into log statements emitted by the logger.
      */
     constructor(appName) {
-        _argValidator.checkString(appName).throw('Invalid appName (arg #1)');
+        _argValidator.checkString(appName, 1, 'Invalid appName (arg #1)');
 
         this._appName = appName;
         this._config = _config.configure(this._appName, {
@@ -99,10 +99,12 @@ class HandlerWrapper {
      *         AWS lambda handler.
      */
     wrap(handler, handlerName) {
-        _argValidator.checkFunction(handler).throw('Invalid handler (arg #1)');
-        _argValidator
-            .checkString(handlerName)
-            .throw('Invalid handler name (arg #2)');
+        _argValidator.checkFunction(handler, 'Invalid handler (arg #1)');
+        _argValidator.checkString(
+            handlerName,
+            1,
+            'Invalid handler name (arg #2)'
+        );
 
         return (event, context, callback) => {
             Promise.try(() => {
