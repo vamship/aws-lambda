@@ -8,6 +8,10 @@ The primary export from this library is a wrapper object converts a simple
 javascript function into an AWS lambda function, providing pre configured logger
 and config objects.
 
+## API Documentation
+
+API documentation can be found [here](https://vamship.github.io/aws-lambda).
+
 # Motivation
 
 [AWS Lambda](https://aws.amazon.com/lambda) is a very popular mechanism for
