@@ -110,7 +110,8 @@ describe('HandlerWrapper', () => {
             expect(configureMethod.stub).to.have.been.calledOnce;
             expect(configureMethod.stub.args[0][0]).to.equal(appName);
             expect(configureMethod.stub.args[0][1]).to.deep.equal({
-                level: 'info'
+                level: 'info',
+                extreme: false
             });
         });
     });

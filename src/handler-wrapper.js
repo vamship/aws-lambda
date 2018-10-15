@@ -84,7 +84,8 @@ class HandlerWrapper {
             }
         });
         this._logger = _logger.configure(this._appName, {
-            level: 'info'
+            level: 'info',
+            extreme: false
         });
     }
 
