@@ -17,9 +17,9 @@
     "author": "Vamshi K Ponnapalli <vamshi.ponnapalli@gmail.com>",
     "license": "MIT",
     "devDependencies": {
-        "@vamship/build-utils": "0.1.1",
-        "@vamship/error-types": "^1.7.7",
-        "@vamship/test-utils": "^2.4.8",
+        "@vamship/build-utils": "0.2.0",
+        "@vamship/error-types": "^1.7.8",
+        "@vamship/test-utils": "^2.4.9",
         "ansi-colors": "^4.1.1",
         "chai": "^4.2.0",
         "chai-as-promised": "^7.1.1",
@@ -30,13 +30,13 @@
         "mocha": "^7.0.0",
         "nyc": "^15.0.0",
         "rewire": "^4.0.1",
-        "sinon": "^8.0.4",
+        "sinon": "^8.1.0",
         "sinon-chai": "^3.4.0"
     },
     "dependencies": {
-        "@vamship/arg-utils": "^2.4.5",
-        "@vamship/config": "^1.4.5",
-        "@vamship/logger": "^4.2.5",
+        "@vamship/arg-utils": "^2.4.6",
+        "@vamship/config": "^1.4.6",
+        "@vamship/logger": "^4.2.6",
         "bluebird": "^3.7.2"
     },
     "repository": {
