@@ -12,7 +12,7 @@ const _rewire = require('rewire');
 const {
     testValues: _testValues,
     ObjectMock,
-    consoleHelper: _consoleHelper
+    consoleHelper: _consoleHelper,
 } = require('@vamship/test-utils');
 const _dotProp = require('dot-prop');
 const { ArgError } = require('@vamship/error-types').args;
@@ -31,7 +31,7 @@ describe('HandlerWrapper', () => {
         'warn',
         'error',
         'fatal',
-        'silent'
+        'silent',
     ];
     const DEFAULT_ALIAS = 'default';
     let _loggerMock = null;
@@ -51,7 +51,7 @@ describe('HandlerWrapper', () => {
             .addMock('getConfig', () => _configMock.__configInstance);
         _configMock.__data = {};
         _configMock.__configInstance = {
-            get: (key) => _dotProp.get(_configMock.__data, key)
+            get: (key) => _dotProp.get(_configMock.__data, key),
         };
 
         HandlerWrapper = _rewire('../../src/handler-wrapper');
@@ -94,8 +94,8 @@ describe('HandlerWrapper', () => {
             expect(configureMethod.stub.args[0][0]).to.equal(appName);
             expect(configureMethod.stub.args[0][1]).to.deep.equal({
                 log: {
-                    level: 'info'
-                }
+                    level: 'info',
+                },
             });
         });
 
@@ -111,7 +111,7 @@ describe('HandlerWrapper', () => {
             expect(configureMethod.stub.args[0][0]).to.equal(appName);
             expect(configureMethod.stub.args[0][1]).to.deep.equal({
                 level: 'info',
-                extreme: false
+                extreme: false,
             });
         });
     });
@@ -164,7 +164,7 @@ describe('HandlerWrapper', () => {
                         handler: _sinon.stub(),
                         accountId: '123456789012',
                         region: 'us-east-1',
-                        alias: '$LATEST'
+                        alias: '$LATEST',
                     };
                     definition = Object.assign(defaultDefinition, definition);
 
@@ -176,13 +176,13 @@ describe('HandlerWrapper', () => {
                         qualifiedHandlerName = `${handlerName}:${alias}`;
                     }
                     const defaultContext = {
-                        invokedFunctionArn: `arn:aws:lambda:${region}:${accountId}:function:${qualifiedHandlerName}`
+                        invokedFunctionArn: `arn:aws:lambda:${region}:${accountId}:function:${qualifiedHandlerName}`,
                     };
                     context = Object.assign(defaultContext, context);
 
                     // Initialize event.
                     event = event || {
-                        lambdaArg1: _testValues.getString('lambdaArg1')
+                        lambdaArg1: _testValues.getString('lambdaArg1'),
                     };
 
                     // Create a wrapper object.
@@ -236,8 +236,8 @@ describe('HandlerWrapper', () => {
                     foo: _testValues.getString('foo'),
                     bar: _testValues.getNumber(),
                     options: {
-                        timestamp: _testValues.getTimestamp()
-                    }
+                        timestamp: _testValues.getTimestamp(),
+                    },
                 };
                 const copy = Object.assign({}, expectedEvent);
                 copy.options = Object.assign({}, expectedEvent.options);
@@ -254,7 +254,7 @@ describe('HandlerWrapper', () => {
 
             it('should pass the context arg to the handler unchanged', (done) => {
                 const expectedContext = {
-                    invokedFunctionArn: `arn:aws:lambda:__region__:__accountId__:function:foo`
+                    invokedFunctionArn: `arn:aws:lambda:__region__:__accountId__:function:foo`,
                 };
                 const copy = Object.assign({}, expectedContext);
                 const testWrapper = new TestWrapper(null, copy);
@@ -271,7 +271,7 @@ describe('HandlerWrapper', () => {
             it('should pass an additional third argument to the handler with expected properties', (done) => {
                 const alias = _testValues.getString('alias');
                 const testWrapper = new TestWrapper({
-                    alias
+                    alias,
                 });
 
                 const promise = testWrapper.invoke();
@@ -287,7 +287,7 @@ describe('HandlerWrapper', () => {
 
             it('should set alias="default" if the lambda invocation is unqualified', (done) => {
                 const testWrapper = new TestWrapper({
-                    alias: undefined
+                    alias: undefined,
                 });
 
                 const promise = testWrapper.invoke();
@@ -299,7 +299,7 @@ describe('HandlerWrapper', () => {
 
             it('should set alias="default" if the the lambda is qualified with "$LATEST"', (done) => {
                 const testWrapper = new TestWrapper({
-                    alias: '$LATEST'
+                    alias: '$LATEST',
                 });
 
                 const promise = testWrapper.invoke();
@@ -313,7 +313,7 @@ describe('HandlerWrapper', () => {
                 const alias = _testValues.getString('alias');
 
                 const testWrapper = new TestWrapper({
-                    alias
+                    alias,
                 });
 
                 const getConfigMethod = _configMock.mocks.getConfig;
@@ -335,17 +335,17 @@ describe('HandlerWrapper', () => {
                 const testWrapper = new TestWrapper(
                     {
                         handlerName,
-                        alias
+                        alias,
                     },
                     {
-                        awsRequestId
+                        awsRequestId,
                     }
                 );
 
                 _configMock.__data = {
                     log: {
-                        level
-                    }
+                        level,
+                    },
                 };
                 const getLoggerMethod = _loggerMock.mocks.getLogger;
 
@@ -354,7 +354,7 @@ describe('HandlerWrapper', () => {
                 expect(getLoggerMethod.stub).to.have.been.calledOnce;
                 expect(getLoggerMethod.stub.args[0][0]).to.equal(handlerName);
                 expect(getLoggerMethod.stub.args[0][1]).to.deep.equal({
-                    awsRequestId
+                    awsRequestId,
                 });
                 expect(_loggerMock.__loggerInstance.level).to.equal(level);
 
@@ -366,7 +366,7 @@ describe('HandlerWrapper', () => {
 
                 Promise.mapSeries(inputs, (value) => {
                     const event = {
-                        __LAMBDA_KEEP_WARM: value
+                        __LAMBDA_KEEP_WARM: value,
                     };
                     const testWrapper = new TestWrapper(null, null, event);
 

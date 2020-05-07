@@ -80,12 +80,12 @@ class HandlerWrapper {
         this._appName = appName;
         this._config = _config.configure(this._appName, {
             log: {
-                level: 'info'
-            }
+                level: 'info',
+            },
         });
         this._logger = _logger.configure(this._appName, {
             level: 'info',
-            extreme: false
+            extreme: false,
         });
     }
 
@@ -118,7 +118,7 @@ class HandlerWrapper {
 
                 const config = this._config.getConfig(alias);
                 const logger = this._logger.getLogger(handlerName, {
-                    awsRequestId: context.awsRequestId
+                    awsRequestId: context.awsRequestId,
                 });
                 logger.level = config.get('log.level');
 
@@ -130,7 +130,7 @@ class HandlerWrapper {
                     return handler(event, context, {
                         logger,
                         config,
-                        alias
+                        alias,
                     });
                 }
             })

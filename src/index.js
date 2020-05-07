@@ -8,5 +8,5 @@ module.exports = {
     /**
      * Handler wrapper.
      */
-    HandlerWrapper: require('./handler-wrapper')
+    HandlerWrapper: require('./handler-wrapper'),
 };

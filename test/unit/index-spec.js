@@ -10,7 +10,7 @@ const _rewire = require('rewire');
 const HandlerWrapper = require('../../src/handler-wrapper');
 let _index = null;
 
-describe('index', function() {
+describe('index', function () {
     beforeEach(() => {
         _index = _rewire('../../src/index');
     });
