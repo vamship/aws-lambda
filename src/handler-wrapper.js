@@ -79,8 +79,10 @@ class HandlerWrapper {
 
         this._appName = appName;
         this._config = _config.configure(this._appName, {
-            log: {
-                level: 'info',
+            default: {
+                log: {
+                    level: 'info',
+                },
             },
         });
         this._logger = _logger.configure(this._appName, {
