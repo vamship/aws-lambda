@@ -14,7 +14,6 @@ const {
     ObjectMock,
     consoleHelper: _consoleHelper,
 } = require('@vamship/test-utils');
-const _dotProp = require('dot-prop');
 const { ArgError } = require('@vamship/error-types').args;
 
 let HandlerWrapper = null;
@@ -287,7 +286,7 @@ describe('HandlerWrapper', () => {
                 const alias = _testValues.getString('alias');
                 const level = _testValues.getString('level');
 
-                process.env.LOG_LEVEL=level;
+                process.env.LOG_LEVEL = level;
 
                 const testWrapper = new TestWrapper(
                     {
