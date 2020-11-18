@@ -35,7 +35,6 @@ describe('HandlerWrapper', () => {
     ];
     const DEFAULT_ALIAS = 'default';
     let _loggerMock = null;
-    let _configMock = null;
 
     beforeEach(() => {
         _loggerMock = new ObjectMock()
@@ -46,18 +45,9 @@ describe('HandlerWrapper', () => {
             return result;
         }, {});
 
-        _configMock = new ObjectMock()
-            .addMock('configure', () => _configMock.instance)
-            .addMock('getConfig', () => _configMock.__configInstance);
-        _configMock.__data = {};
-        _configMock.__configInstance = {
-            get: (key) => _dotProp.get(_configMock.__data, key),
-        };
-
         HandlerWrapper = _rewire('../../src/handler-wrapper');
 
         HandlerWrapper.__set__('_logger', _loggerMock.instance);
-        HandlerWrapper.__set__('_config', _configMock.instance);
     });
 
     describe('ctor()', () => {
@@ -80,25 +70,6 @@ describe('HandlerWrapper', () => {
 
             expect(wrapper).to.be.an('object');
             expect(wrapper.wrap).to.be.a('function');
-        });
-
-        it('should configure the config object using the correct parameters', () => {
-            const appName = _testValues.getString('appName');
-            const configureMethod = _configMock.mocks.configure;
-
-            expect(configureMethod.stub).to.not.have.been.called;
-
-            new HandlerWrapper(appName);
-
-            expect(configureMethod.stub).to.have.been.calledOnce;
-            expect(configureMethod.stub.args[0][0]).to.equal(appName);
-            expect(configureMethod.stub.args[0][1]).to.deep.equal({
-                default: {
-                    log: {
-                        level: 'info',
-                    },
-                },
-            });
         });
 
         it('should configure the logger object using the correct parameters', () => {
@@ -281,7 +252,6 @@ describe('HandlerWrapper', () => {
 
                 expect(ext).to.be.an('object');
                 expect(ext.logger).to.equal(_loggerMock.__loggerInstance);
-                expect(ext.config).to.equal(_configMock.__configInstance);
                 expect(ext.alias).to.equal(alias);
 
                 promise.then(done, done);
@@ -311,28 +281,13 @@ describe('HandlerWrapper', () => {
                 promise.then(done, done);
             });
 
-            it('should configure the config with the correct parameters', (done) => {
-                const alias = _testValues.getString('alias');
-
-                const testWrapper = new TestWrapper({
-                    alias,
-                });
-
-                const getConfigMethod = _configMock.mocks.getConfig;
-
-                const promise = testWrapper.invoke();
-
-                expect(getConfigMethod.stub).to.have.been.calledOnce;
-                expect(getConfigMethod.stub.args[0][0]).to.equal(alias);
-
-                promise.then(done, done);
-            });
-
             it('should configure the logger with the correct parameters', (done) => {
                 const handlerName = _testValues.getString('handlerName');
                 const awsRequestId = _testValues.getString('awsRequestId');
                 const alias = _testValues.getString('alias');
                 const level = _testValues.getString('level');
+
+                process.env.LOG_LEVEL=level;
 
                 const testWrapper = new TestWrapper(
                     {
@@ -344,11 +299,6 @@ describe('HandlerWrapper', () => {
                     }
                 );
 
-                _configMock.__data = {
-                    log: {
-                        level,
-                    },
-                };
                 const getLoggerMethod = _loggerMock.mocks.getLogger;
 
                 const promise = testWrapper.invoke();
@@ -506,26 +456,6 @@ describe('HandlerWrapper', () => {
                         expect(testWrapper.callback).to.have.been.calledOnce;
                         expect(testWrapper.callback.args[0][0]).to.be.null;
                         expect(testWrapper.callback.args[0][1]).to.equal(ret);
-                    })
-                    .then(done, done);
-            });
-
-            it('should gracefully handle any errors during handler initialization', (done) => {
-                const error = new Error('something went wrong!');
-                _configMock.mocks.getConfig.stub.throws(error);
-                const testWrapper = new TestWrapper();
-
-                expect(testWrapper.handler).to.not.have.been.called;
-                expect(testWrapper.callback).to.not.have.been.called;
-
-                const promise = testWrapper.invoke();
-
-                expect(promise)
-                    .to.be.rejected.then(() => {
-                        expect(testWrapper.handler).to.not.have.been.called;
-                        expect(testWrapper.callback).to.have.been.calledOnce;
-                        expect(testWrapper.callback.args[0][0]).to.equal(error);
-                        expect(testWrapper.callback.args[0][1]).to.be.undefined;
                     })
                     .then(done, done);
             });

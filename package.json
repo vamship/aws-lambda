@@ -1,7 +1,7 @@
 {
     "name": "@vamship/aws-lambda",
     "version": "1.5.10",
-    "description": "AWS lambda utilities that include a standardized wrapper for handlers that pre configures logger and config objects, and supports promises for async handler execution.",
+    "description": "AWS lambda utilities that include a standardized wrapper for handlers that pre configures a logger object, and supports promises for async handler execution.",
     "main": "src/index.js",
     "scripts": {
         "all": "gulp --series format lint test-unit clean",
@@ -34,7 +34,6 @@
     },
     "dependencies": {
         "@vamship/arg-utils": "^2.4.8",
-        "@vamship/config": "^1.4.8",
         "@vamship/logger": "^4.3.1",
         "bluebird": "^3.7.2"
     },

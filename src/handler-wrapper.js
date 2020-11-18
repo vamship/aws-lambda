@@ -3,15 +3,14 @@
 const Promise = require('bluebird').Promise;
 const { argValidator: _argValidator } = require('@vamship/arg-utils');
 const _logger = require('@vamship/logger');
-const _config = require('@vamship/config');
 
 const DEFAULT_ALIAS = 'default';
 
 /**
  * Utility class that creates wrappers for AWS Lambda functions by wrapping a
  * simple Node.js function that serves as a lambda handler. These wrappers
- * initialize and inject configuration and logger objects, and also allow
- * underlying implementations to return promises for asynchronous operations.
+ * initialize and inject a logger object, and also allow underlying
+ * implementations to return promises for asynchronous operations.
  */
 class HandlerWrapper {
     /**
@@ -29,9 +28,6 @@ class HandlerWrapper {
      * @param {Object} ext Extended parameters passed to the handler. These
      *        are values injected by the wrapper, providing utility objects
      *        that the handler can optionally utilize.
-     * @param {Object} ext.config A properly scoped configuration object. This
-     *        object contains configuration parameters for a specific
-     *        environment, based on the lambda alias value.
      * @param {Object} ext.logger A logger object that can be used to write log
      *        messages. The logger object is pre initialized with some metadata
      *        that includes the application name, lambda handler name and the
@@ -49,7 +45,7 @@ class HandlerWrapper {
 
     /**
      * A function that conforms to the AWS signature. This function initializes
-     * the logger and config objects, and delegates actual execution to a
+     * the logger object, and delegates actual execution to a
      * [handler function]{@link HandlerWrapper.Handler}.
      *
      * <p>The wrapper also provides lambda keep warm capability that can be
@@ -78,13 +74,6 @@ class HandlerWrapper {
         _argValidator.checkString(appName, 1, 'Invalid appName (arg #1)');
 
         this._appName = appName;
-        this._config = _config.configure(this._appName, {
-            default: {
-                log: {
-                    level: 'info',
-                },
-            },
-        });
         this._logger = _logger.configure(this._appName, {
             level: 'info',
             extreme: false,
@@ -118,11 +107,10 @@ class HandlerWrapper {
                 // eslint-disable-next-line no-console
                 console.log(`Setting lambda alias to: [${alias}]`);
 
-                const config = this._config.getConfig(alias);
                 const logger = this._logger.getLogger(handlerName, {
                     awsRequestId: context.awsRequestId,
                 });
-                logger.level = config.get('log.level');
+                logger.level = process.env.LOG_LEVEL || logger.level;
 
                 if (event.__LAMBDA_KEEP_WARM) {
                     // eslint-disable-next-line no-console
@@ -131,7 +119,6 @@ class HandlerWrapper {
                 } else {
                     return handler(event, context, {
                         logger,
-                        config,
                         alias,
                     });
                 }
