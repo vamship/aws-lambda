@@ -17,23 +17,18 @@
     "author": "Vamshi K Ponnapalli <vamshi.ponnapalli@gmail.com>",
     "license": "MIT",
     "devDependencies": {
-        "@vamship/build-utils": "0.8.3",
-        "@vamship/error-types": "^1.7.13",
-        "@vamship/test-utils": "^2.4.15",
-        "ansi-colors": "^4.1.1",
+        "@vamship/build-utils": "1.0.2",
+        "@vamship/error-types": "^1.7.18",
+        "@vamship/test-utils": "^2.5.6",
         "chai": "^4.3.4",
         "chai-as-promised": "^7.1.1",
-        "fancy-log": "^1.3.3",
-        "gulp": "^4.0.2",
-        "mocha": "^8.4.0",
-        "nyc": "^15.1.0",
         "rewire": "^5.0.0",
-        "sinon": "^11.1.1",
+        "sinon": "^11.1.2",
         "sinon-chai": "^3.7.0"
     },
     "dependencies": {
-        "@vamship/arg-utils": "^2.4.13",
-        "@vamship/logger": "^4.3.5",
+        "@vamship/arg-utils": "^2.4.16",
+        "@vamship/logger": "^4.3.8",
         "bluebird": "^3.7.2"
     },
     "repository": {
