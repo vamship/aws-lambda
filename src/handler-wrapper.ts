@@ -2,7 +2,7 @@
 
 import { argValidator as _argValidator } from '@vamship/arg-utils';
 import bluebird from 'bluebird';
-import { LogManager, ILogger } from '@vamship/logger';
+import { LogManager } from '@vamship/logger';
 import * as process from 'process';
 
 const { Promise } = bluebird;
@@ -27,7 +27,7 @@ export class HandlerWrapper {
      * @callback HandlerWrapper.Handler
      * @param {Object} event The input to the lambda function, not altered
      *        in any way by the wrapper.
-     * @param {Object} contex The
+     * @param {Object} context The
      *        [AWS lambda context]{@link https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html},
      *        not altered in any way by the wrapper.
      * @param {Object} ext Extended parameters passed to the handler. These
@@ -63,7 +63,7 @@ export class HandlerWrapper {
      * @callback HandlerWrapper.Wrapper
      * @param {Object} event The input to the lambda function, not altered
      *        in any way by the wrapper.
-     * @param {Object} contex The
+     * @param {Object} context The
      *        [AWS lambda context]{@link https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html}.
      * @param {Function} callback The
      *        [callback]{@link https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-handler.html#nodejs-prog-model-handler-callback}
@@ -75,7 +75,7 @@ export class HandlerWrapper {
      *        functions returned by this object belong. This value will be
      *        injected into log statements emitted by the logger.
      */
-    constructor(appName:string) {
+    constructor(appName: string) {
         _argValidator.checkString(appName, 1, 'Invalid appName (arg #1)');
 
         this._appName = appName;
@@ -92,7 +92,7 @@ export class HandlerWrapper {
      * @return {HandlerWrapper.Wrapper} A function that can be used as the
      *         AWS lambda handler.
      */
-    wrap(handler:Function, handlerName:string) {
+    wrap(handler: Function, handlerName: string) {
         _argValidator.checkFunction(handler, 'Invalid handler (arg #1)');
         _argValidator.checkString(
             handlerName,
@@ -100,7 +100,7 @@ export class HandlerWrapper {
             'Invalid handler name (arg #2)'
         );
 
-        return (event:any, context:any, callback:any) => {
+        return (event: any, context: any, callback: any) => {
             Promise.try(() => {
                 let alias = context.invokedFunctionArn.split(':')[7];
                 if (typeof alias === 'undefined' || alias === '$LATEST') {
@@ -125,13 +125,13 @@ export class HandlerWrapper {
                     });
                 }
             })
-                .then((data:any) => {
+                .then((data: any) => {
                     // eslint-disable-next-line no-console
                     console.log('Lambda execution completed');
 
                     callback(null, data);
                 })
-                .catch((ex:Error) => {
+                .catch((ex: Error) => {
                     // eslint-disable-next-line no-console
                     console.error('Error processing lambda function', ex);
 
