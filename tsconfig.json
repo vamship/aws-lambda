@@ -1,0 +1,26 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Recommended",
+
+    "compilerOptions": {
+        "moduleResolution": "bundler",
+        "lib": ["es2022"],
+        "target": "es2022",
+        "module": "es2022",
+        "esModuleInterop": true,
+        "declaration": true,
+
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "strict": true,
+        "alwaysStrict": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+
+        "outDir": "./working",
+        "rootDir": "./"
+    },
+    "include": ["src/**/*.ts", "test/**/*.ts"]
+}

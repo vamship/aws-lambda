@@ -1,8 +1,11 @@
 'use strict';
 
-const Promise = require('bluebird').Promise;
-const { argValidator: _argValidator } = require('@vamship/arg-utils');
-const _logger = require('@vamship/logger');
+import { argValidator as _argValidator } from '@vamship/arg-utils';
+import bluebird from 'bluebird';
+import { LogManager, ILogger } from '@vamship/logger';
+import * as process from 'process';
+
+const { Promise } = bluebird;
 
 const DEFAULT_ALIAS = 'default';
 
@@ -12,7 +15,9 @@ const DEFAULT_ALIAS = 'default';
  * initialize and inject a logger object, and also allow underlying
  * implementations to return promises for asynchronous operations.
  */
-class HandlerWrapper {
+export class HandlerWrapper {
+    _appName: string;
+    _logger: any;
     /**
      * A function that contains the core execution logic of the lambda function.
      * This function receives the input and context from the AWS lambda, along
@@ -70,14 +75,11 @@ class HandlerWrapper {
      *        functions returned by this object belong. This value will be
      *        injected into log statements emitted by the logger.
      */
-    constructor(appName) {
+    constructor(appName:string) {
         _argValidator.checkString(appName, 1, 'Invalid appName (arg #1)');
 
         this._appName = appName;
-        this._logger = _logger.configure(this._appName, {
-            level: 'info',
-            extreme: false,
-        });
+        this._logger = new LogManager();
     }
 
     /**
@@ -90,7 +92,7 @@ class HandlerWrapper {
      * @return {HandlerWrapper.Wrapper} A function that can be used as the
      *         AWS lambda handler.
      */
-    wrap(handler, handlerName) {
+    wrap(handler:Function, handlerName:string) {
         _argValidator.checkFunction(handler, 'Invalid handler (arg #1)');
         _argValidator.checkString(
             handlerName,
@@ -98,7 +100,7 @@ class HandlerWrapper {
             'Invalid handler name (arg #2)'
         );
 
-        return (event, context, callback) => {
+        return (event:any, context:any, callback:any) => {
             Promise.try(() => {
                 let alias = context.invokedFunctionArn.split(':')[7];
                 if (typeof alias === 'undefined' || alias === '$LATEST') {
@@ -123,13 +125,13 @@ class HandlerWrapper {
                     });
                 }
             })
-                .then((data) => {
+                .then((data:any) => {
                     // eslint-disable-next-line no-console
                     console.log('Lambda execution completed');
 
                     callback(null, data);
                 })
-                .catch((ex) => {
+                .catch((ex:Error) => {
                     // eslint-disable-next-line no-console
                     console.error('Error processing lambda function', ex);
 
@@ -138,5 +140,3 @@ class HandlerWrapper {
         };
     }
 }
-
-module.exports = HandlerWrapper;
