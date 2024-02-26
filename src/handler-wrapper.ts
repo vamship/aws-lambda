@@ -2,7 +2,7 @@
 
 import { argValidator as _argValidator } from '@vamship/arg-utils';
 import bluebird from 'bluebird';
-import { LogManager } from '@vamship/logger';
+import logManager, { LogManager, ILogger } from '@vamship/logger';
 import * as process from 'process';
 
 const { Promise } = bluebird;
@@ -16,8 +16,8 @@ const DEFAULT_ALIAS = 'default';
  * implementations to return promises for asynchronous operations.
  */
 export class HandlerWrapper {
-    _appName: string;
-    _logger: any;
+    private _appName: string;
+    private _logManager: LogManager;
     /**
      * A function that contains the core execution logic of the lambda function.
      * This function receives the input and context from the AWS lambda, along
@@ -79,7 +79,10 @@ export class HandlerWrapper {
         _argValidator.checkString(appName, 1, 'Invalid appName (arg #1)');
 
         this._appName = appName;
-        this._logger = new LogManager();
+        this._logManager = logManager.configure(this._appName, {
+            level: 'info',
+            extreme: false,
+        });
     }
 
     /**
@@ -109,9 +112,12 @@ export class HandlerWrapper {
                 // eslint-disable-next-line no-console
                 console.log(`Setting lambda alias to: [${alias}]`);
 
-                const logger = this._logger.getLogger(handlerName, {
-                    awsRequestId: context.awsRequestId,
-                });
+                const logger: ILogger = this._logManager.getLogger(
+                    handlerName,
+                    {
+                        awsRequestId: context.awsRequestId,
+                    }
+                );
                 logger.level = process.env.LOG_LEVEL || logger.level;
 
                 if (event.__LAMBDA_KEEP_WARM) {
