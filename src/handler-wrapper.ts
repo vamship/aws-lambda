@@ -36,7 +36,7 @@ export class HandlerWrapper {
      * @param {Object} ext.logger A logger object that can be used to write log
      *        messages. The logger object is pre initialized with some metadata
      *        that includes the application name, lambda handler name and the
-     *        lamnda execution id. More properties may be added to it if
+     *        lambda execution id. More properties may be added to it if
      *        necessary by invoking <code>logger.child()</code>.
      * @param {String} ext.alias The alias with which the lambda function was
      *        invoked. If the lambda was not invoked unqualified or as latest
