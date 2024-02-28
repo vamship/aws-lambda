@@ -1,11 +1,27 @@
 {
     "name": "@vamship/aws-lambda",
-    "version": "2.0.5",
+    "version": "3.0.0",
     "description": "AWS lambda utilities that include a standardized wrapper for handlers that pre configures a logger object, and supports promises for async handler execution.",
     "main": "src/index.js",
+    "type": "module",
     "scripts": {
-        "all": "gulp --series format lint test-unit clean",
-        "test": "gulp test-unit"
+        "clean": "gulp clean",
+        "format": "gulp format",
+        "lint": "gulp lint",
+        "lint-fix": "gulp lint-fix",
+        "build": "gulp build",
+        "test": "cross-env NODE_ENV=test dotenv-load gulp --series clean build test-unit",
+        "package": "cross-env NODE_ENV=test dotenv-load gulp --series clean format lint build test-unit package",
+        "publish": "gulp publish",
+        "docs": "gulp docs",
+        "all": "cross-env NODE_ENV=test dotenv-load gulp --series clean format lint build test-unit clean",
+        "watch:build": "gulp watch-build",
+        "watch:test": "cross-env NODE_ENV=development dotenv-load gulp watch-test-unit",
+        "watch:lint": "gulp watch-lint"
+    },
+    "engines": {
+        "node": ">= 20.11.0",
+        "npm": ">= 10.2.4"
     },
     "files": [
         "package.json",
@@ -17,18 +33,31 @@
     "author": "Vamshi K Ponnapalli <vamshi.ponnapalli@gmail.com>",
     "license": "MIT",
     "devDependencies": {
-        "@vamship/build-utils": "1.1.0",
-        "@vamship/error-types": "^1.7.20",
-        "@vamship/test-utils": "^2.5.8",
-        "chai": "^4.3.4",
+        "@types/chai-as-promised": "^7.1.8",
+        "@types/mocha": "^10.0.6",
+        "@types/node": "^20.11.16",
+        "@types/sinon-chai": "^3.2.12",
+        "@typescript-eslint/eslint-plugin": "^6.20.0",
+        "@types/bluebird": "^3.5.42",
+        "@types/chai": "^4.3.11",
+        "@vamship/build-utils": "file:../build-utils",
+        "@vamship/error-types": "file:../error-types/dist/package",
+        "@vamship/test-utils": "file:../test-utils/dist/package",
+        "c8": "^9.1.0",
+        "chai": "^4.4.1",
         "chai-as-promised": "^7.1.1",
-        "rewire": "^6.0.0",
-        "sinon": "^12.0.1",
+        "cross-env": "^7.0.3",
+        "dotenv-load": "^3.0.0",
+        "esmock": "^2.6.3",
+        "gulp": "^4.0.2",
+        "gulp-cli": "^2.3.0",
+        "mocha": "^10.2.0",
+        "sinon": "^17.0.1",
         "sinon-chai": "^3.7.0"
     },
     "dependencies": {
-        "@vamship/arg-utils": "^2.4.19",
-        "@vamship/logger": "^4.3.11",
+        "@vamship/arg-utils": "file:../arg-utils/dist/package",
+        "@vamship/logger": "file:../logger/dist/package",
         "bluebird": "^3.7.2"
     },
     "repository": {
@@ -40,7 +69,7 @@
     },
     "homepage": "https://github.com/vamship/aws-lambda#readme",
     "buildMetadata": {
-        "projectType": "lib",
-        "language": "js"
+        "type": "lib",
+        "language": "ts"
     }
 }
