@@ -1,0 +1,9 @@
+{
+    "watch-files": ["src/**/*.js", "test/**/*.js"],
+    "spec": [
+        "test/**/*.js"
+    ],
+    "timeout": "5000",
+    "loader": ["esmock"],
+    "parallel": false
+}

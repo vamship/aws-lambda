@@ -3,6 +3,7 @@
     "version": "2.0.5",
     "description": "AWS lambda utilities that include a standardized wrapper for handlers that pre configures a logger object, and supports promises for async handler execution.",
     "main": "src/index.js",
+    "type": "module",
     "scripts": {
         "all": "gulp --series format lint test-unit clean",
         "test": "gulp test-unit"
