@@ -18,6 +18,11 @@
     "author": "Vamshi K Ponnapalli <vamshi.ponnapalli@gmail.com>",
     "license": "MIT",
     "devDependencies": {
+        "@types/aws-lambda": "^8.10.152",
+        "@types/chai": "^5.2.2",
+        "@types/chai-as-promised": "^8.0.2",
+        "@types/mocha": "^10.0.10",
+        "@types/sinon-chai": "^4.0.0",
         "@vamship/build-utils": "2.6.0",
         "@vamship/error-types": "^2.1.0",
         "@vamship/test-utils": "^3.2.0",
@@ -40,7 +45,7 @@
     },
     "homepage": "https://github.com/vamship/aws-lambda#readme",
     "buildMetadata": {
-        "projectType": "lib",
+        "type": "lib",
         "language": "ts"
     }
 }
