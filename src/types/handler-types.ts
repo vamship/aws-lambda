@@ -34,7 +34,7 @@ export type HandlerInput = {
      * for keep-warm purposes.
      */
     __LAMBDA_KEEP_WARM?: boolean;
-}
+};
 
 /**
  * Response from the handler wrapper when the Lambda is invoked for keep-warm
@@ -42,7 +42,7 @@ export type HandlerInput = {
  */
 export type KeepWarmResponse = {
     __LAMBDA_KEEP_WARM: boolean;
-}
+};
 
 /**
  * Handler function that implements the core execution logic for a Lambda
@@ -57,10 +57,10 @@ export type KeepWarmResponse = {
  * @returns A promise that resolves when the handler has completed its
  * execution.
  */
-export type Handler<TInput extends HandlerInput, TOutput=void> = (
+export type Handler<TInput extends HandlerInput, TOutput = void> = (
     event: TInput,
     context: Context,
-    params: IExtendedParameters
+    params: IExtendedParameters,
 ) => Promise<TOutput>;
 
 /**
@@ -76,7 +76,7 @@ export type Handler<TInput extends HandlerInput, TOutput=void> = (
  * @returns A promise that resolves with either the handler's output or a
  *          keep-warm response.
  */
-export type WrappedHandler<TInput extends HandlerInput, TOutput=void> = (
+export type WrappedHandler<TInput extends HandlerInput, TOutput = void> = (
     event: TInput,
-    context: Context
+    context: Context,
 ) => Promise<TOutput | KeepWarmResponse>;

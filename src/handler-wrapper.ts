@@ -1,10 +1,6 @@
 import { argValidator as _argValidator } from '@vamship/arg-utils';
 import _logManager, { ILogger } from '@vamship/logger';
-import {
-    HandlerInput,
-    Handler,
-    WrappedHandler,
-} from './types/index.js';
+import { HandlerInput, Handler, WrappedHandler } from './types/index.js';
 
 const DEFAULT_ALIAS = 'default';
 
