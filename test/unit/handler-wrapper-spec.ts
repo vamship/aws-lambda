@@ -371,9 +371,8 @@ describe('HandlerWrapper', async function () {
 
                 // eslint-disable-next-line tsel/no-unused-expressions
                 expect(childMethod.stub).to.have.been.calledOnce;
-                const loggerConfig = childMethod.stub.args[0][0];
-                expect(loggerConfig.args[0][0]).to.be.an('object');
-                expect(loggerConfig.args[0][0]).to.deep.equal({
+                expect(childMethod.stub.args[0][0]).to.be.an('object');
+                expect(childMethod.stub.args[0][0]).to.deep.equal({
                     handler: handlerName,
                     awsRequestId,
                 });
