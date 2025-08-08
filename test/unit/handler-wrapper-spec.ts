@@ -9,7 +9,7 @@ _useWithChai(_chaiAsPromised);
 import _esmock from 'esmock';
 import { spy, stub, SinonStub } from 'sinon';
 import { ArgError } from '@vamship/error-types';
-import logManager, { ILogger, LogManager } from '@vamship/logger';
+import { ILogger, LogManager } from '@vamship/logger';
 import {
     ObjectMock,
     MockImportHelper,
@@ -117,7 +117,7 @@ describe('HandlerWrapper', async function () {
             // eslint-disable-next-line tsel/no-unused-expressions
             expect(getLoggerMethod.stub).to.not.have.been.called;
 
-            const instance = new HandlerWrapper(appName);
+            new HandlerWrapper(appName);
 
             // eslint-disable-next-line tsel/no-unused-expressions
             expect(configureMethod.stub).to.have.been.calledOnce;
@@ -372,8 +372,8 @@ describe('HandlerWrapper', async function () {
                 // eslint-disable-next-line tsel/no-unused-expressions
                 expect(childMethod.stub).to.have.been.calledOnce;
                 const loggerConfig = childMethod.stub.args[0][0];
-                expect(childMethod.stub.args[0][0]).to.be.an('object');
-                expect(childMethod.stub.args[0][0]).to.deep.equal({
+                expect(loggerConfig.args[0][0]).to.be.an('object');
+                expect(loggerConfig.args[0][0]).to.deep.equal({
                     handler: handlerName,
                     awsRequestId,
                 });
@@ -441,6 +441,7 @@ describe('HandlerWrapper', async function () {
                 await expect(wrapperTester.invoke())
                     .to.be.rejectedWith(error)
                     .then(function () {
+                        // eslint-disable-next-line tsel/no-unused-expressions
                         expect(wrapperTester.handler).to.not.have.been.called;
                     });
             });

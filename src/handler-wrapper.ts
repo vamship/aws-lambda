@@ -2,11 +2,9 @@ import { argValidator as _argValidator } from '@vamship/arg-utils';
 import _logManager, { ILogger } from '@vamship/logger';
 import {
     HandlerInput,
-    KeepWarmResponse,
     Handler,
     WrappedHandler,
 } from './types/index.js';
-import { Context } from 'aws-lambda';
 
 const DEFAULT_ALIAS = 'default';
 
@@ -76,25 +74,21 @@ export class HandlerWrapper {
                 logger.level = process.env.LOG_LEVEL || logger.level;
 
                 if (event.__LAMBDA_KEEP_WARM) {
-                    // eslint-disable-next-line no-console
                     console.log('Keep warm request received. Skipping');
                     return { __LAMBDA_KEEP_WARM: true };
                 } else {
-                    // eslint-disable-next-line no-console
                     console.log(`Invoking handler [${handlerName}:${alias}]`);
                     const result = await handler(event, context, {
                         logger,
                         alias,
                     });
 
-                    // eslint-disable-next-line no-console
                     console.log(
                         `Handler [${handlerName}:${alias}] completed successfully`,
                     );
                     return result;
                 }
             } catch (ex) {
-                // eslint-disable-next-line no-console
                 console.error('Error processing lambda function', ex);
                 throw ex;
             }
